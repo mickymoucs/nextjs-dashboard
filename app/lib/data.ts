@@ -60,7 +60,7 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
 
-    const data = await Promise.all([
+    const data = await Promise.all([ // Parallel fetching
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
@@ -157,7 +157,8 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-
+    
+    console.log(invoice); // Invoice is an empty array []
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
